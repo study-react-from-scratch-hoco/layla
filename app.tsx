@@ -42,10 +42,11 @@ const render = (el, container) => {
 
 // ---- Application ---
 const App = () => {
+    const myName = 'layla';
     return (
         <div draggable>
-            <h2>Hello React!</h2>
-            <p>I am a pargraph</p>
+            <h2>Hello {myName}!</h2>
+            <p>Im hungry 🤤</p>
             <input type="text" />
         </div>
     );
