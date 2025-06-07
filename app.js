@@ -16,6 +16,11 @@ const React = {
 const render = (el, container) => {
     console.log(el);
     console.log(container);
+    if (typeof el === 'string') {
+        const textNode = document.createTextNode(el);
+        container.appendChild(textNode);
+        return;
+    }
     // 1. DOM 요소 생성
     let domEl = document.createElement(el.tag);
     // 2. 속성 설정
