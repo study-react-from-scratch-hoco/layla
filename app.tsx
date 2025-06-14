@@ -14,16 +14,19 @@ const React = {
     },
 };
 
+let myAppState;
+
 const useState = (initialState: any) => {
-    console.log('useState is initialized with value: ', initialState);
+    myAppState = myAppState || initialState;
+    console.log('useState is initialized with value: ', myAppState);
     let state: any = initialState;
     const setState = (newState: any) => {
         console.log('setState is called with newState value: ', newState);
-        state = newState;
+        myAppState = newState;
         // 상태 변경시 UI 리렌더링
         reRender();
     }
-    return [state, setState];
+    return [myAppState, setState];
 }
 
 const render = (el, container) => {
@@ -60,7 +63,8 @@ const reRender = () =>{
 
 // ---- Application ---
 const App = () => {
-    const [name, setName] = useState('layla')
+    const [name, setName] = useState('layla');
+    const [count, setCount] = useState(0);
     return (
         <div draggable>
             <h2>Hello {name}!</h2>
@@ -69,6 +73,9 @@ const App = () => {
                 type="text"
                 value={name}
                 onchange={(e) => setName(e.target.value)}/>
+            <h2>Counter value: {count}</h2>
+            <button onClick={() => setCount(count + 1)}>+1</button>
+            <button onClick={() => setCount(count - 1)}>-1</button>
         </div>
     );
 };
