@@ -13,6 +13,17 @@ const React = {
         return el;
     },
 };
+
+const useState = (initialState: any) => {
+    console.log('useState is initialized with value: ', initialState);
+    let state: any = initialState;
+    const setState = (newState: any) => {
+        console.log('setState is called with newState value: ', newState);
+        state = newState;
+    }
+    return [state, setState];
+}
+
 const render = (el, container) => {
     console.log(el);
     console.log(container);
@@ -42,12 +53,15 @@ const render = (el, container) => {
 
 // ---- Application ---
 const App = () => {
-    const myName = 'layla';
+    const [name, setName] = useState('layla')
     return (
         <div draggable>
-            <h2>Hello {myName}!</h2>
+            <h2>Hello {name}!</h2>
             <p>Im hungry 🤤</p>
-            <input type="text" />
+            <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}/>
         </div>
     );
 };
