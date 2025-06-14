@@ -20,6 +20,8 @@ const useState = (initialState: any) => {
     const setState = (newState: any) => {
         console.log('setState is called with newState value: ', newState);
         state = newState;
+        // 상태 변경시 UI 리렌더링
+        reRender();
     }
     return [state, setState];
 }
@@ -51,6 +53,11 @@ const render = (el, container) => {
     container.appendChild(domEl);
 };
 
+const reRender = () =>{
+    console.log('reRender-ing :)');
+        render(<App/>, document.getElementById('myapp'));
+}
+
 // ---- Application ---
 const App = () => {
     const [name, setName] = useState('layla')
@@ -61,7 +68,7 @@ const App = () => {
             <input
                 type="text"
                 value={name}
-                onChange={(e) => setName(e.target.value)}/>
+                onchange={(e) => setName(e.target.value)}/>
         </div>
     );
 };
