@@ -14,26 +14,35 @@ const React = {
     },
 };
 
-let myAppState;
+//let myAppState;
+const myAppState = [];
+let myAppStateCursor = 0;
 
-const useState = (initialState: any) => {
-    myAppState = myAppState || initialState;
-    console.log('useState is initialized with value: ', myAppState);
-    let state: any = initialState;
-    const setState = (newState: any) => {
-        console.log('setState is called with newState value: ', newState);
-        myAppState = newState;
-        // 상태 변경시 UI 리렌더링
+const useState = (initialState) => {// get the cursor for this useState
+    const stateCursor = myAppStateCursor;
+    myAppState[stateCursor] = myAppState[stateCursor] || initialState;
+    console.log(
+        `useState is initialized at cursor ${stateCursor} with value:`,
+        myAppState
+    );
+    const setState = (newState) => {
+        console.log(
+            `setState is called at cursor ${stateCursor} with newState value:`,
+            newState
+        );
+        myAppState[stateCursor] = newState;
         reRender();
-    }
-    return [myAppState, setState];
-}
+    };
+    myAppStateCursor++;
+    console.log(`stateDump`, myAppState);
+    return [myAppState[stateCursor], setState];
+};
 
 const render = (el, container) => {
     console.log(el);
     console.log(container);
-    if (typeof el === 'string') {
-        const textNode = document.createTextNode(el);
+    if (typeof el === 'string' || typeof el === 'number') {
+        const textNode = document.createTextNode(String(el));
         container.appendChild(textNode);
         return;
     }
@@ -56,10 +65,14 @@ const render = (el, container) => {
     container.appendChild(domEl);
 };
 
-const reRender = () =>{
-    console.log('reRender-ing :)');
-        render(<App/>, document.getElementById('myapp'));
-}
+    const reRender = () => {
+        console.log('reRender-ing :)');
+        const rootNode = document.getElementById('myapp');
+        rootNode.innerHTML = '';
+        myAppStateCursor = 0;
+        render(<App />, rootNode);
+    };
+
 
 // ---- Application ---
 const App = () => {
@@ -73,9 +86,9 @@ const App = () => {
                 type="text"
                 value={name}
                 onchange={(e) => setName(e.target.value)}/>
-            <h2>Counter value: {count}</h2>
-            <button onClick={() => setCount(count + 1)}>+1</button>
-            <button onClick={() => setCount(count - 1)}>-1</button>
+            <h2>Counter value: {count} </h2>
+            <button onclick={() => setCount(count + 1)}>+1</button>
+            <button onclick={() => setCount(count - 1)}>-1</button>
         </div>
     );
 };
